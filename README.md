@@ -2,50 +2,30 @@
 
 ### About ###
 
+Amazon Cognito lets you add user sign-up, sign-in, and access control to your web and mobile apps quickly and easily. Amazon Cognito scales to millions of users and supports sign-in with social identity providers, such as Facebook, Google, and Amazon, and enterprise identity providers via SAML 2.0.
+
 * Java client to connect to AWS Cognito.
 
 
 ### How to ###
 
-* add dependency pom.xml
-~~~~
-        <!-- Cognito -->
-        <dependency>
-            <groupId>com.prottonne</groupId>
-            <artifactId>cognito-my-library</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-~~~~
 
-* add Beans to @SpringBootApplication File:
 ~~~~
-    @Bean
-    public AutenticaCognito autenticaCognito() {
-        return new AutenticaCognito();
-    }
+         @Autowired
+    private CognitoHelper cognitoHelper;  
 
-    @Bean
-    public CognitoHelper cognitoHelper() {
-        return new CognitoHelper();
-    }
+  
 
-    @Bean
-    public AuthenticationHelper authenticationHelper() {
-        return new AuthenticationHelper();
-    }
+        cognitoHelper.init(
+                request.getPoolId(),
+                request.getClientAppId(),
+                request.getRegion()
+        );
 
-    @Bean
-    public Hkdf hkdf() {
-        return new Hkdf();
-    }
-~~~~
-* Inyect Bean:
-~~~~
-    @Autowired
-    private AutenticaCognito autenticaCognito;
+        String jwtTokek = cognitoHelper.auth(
+                request.getUsername(),
+                request.getPassword()
+        );
 
-    String tokenJWTcognito
-                    = autenticaCognito.autenticarUsuario(getPeticionCognito(
-                            user, peticion.getPass()
-                    ));
+       
 ~~~~
